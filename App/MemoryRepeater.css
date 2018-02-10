@@ -1,0 +1,60 @@
+#containerInputTranslationsWithSubmit
+{
+	width: 100%;
+	display: inline-flex;
+}
+
+#containerInputTranslationsWithoutSubmit
+{
+	display: inline-flex;
+	justify-content: center;
+}
+
+#changeInputLanguage
+{
+	cursor: pointer;
+	background-color: #ccccee;
+}
+
+#submitFormTranslation
+{
+	
+}
+
+.wordReminder
+{	
+	width: 40%; 
+	border: black solid 1px;
+	padding-left: 1px;
+	width: 100%;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow: auto; 
+}
+
+.containerWordReminder
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.wordInMyLanguage
+{
+	background-color: #ddffdd;
+}
+
+.wordInForeignLanguage
+{
+	background-color: #ffdddd;
+}
+
+.rankRepetition
+{
+	background-color: #9999ee;
+	color: #eeeeaa;
+}
+
+.containerWordReminder input
+{
+	width: 100%;
+}
