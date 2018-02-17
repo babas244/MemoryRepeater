@@ -82,8 +82,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		}		
 		
 		
-		if (isset($_POST['wordInMyLanguage']) && isset($_GET['wordInForeignLanguage'])) { // user entered a new translation 
-			$wordInMyLanguage = htmlspecialchars($_POST['wordInMyLanguage']);
+		if (isset($_GET['wordInMyLanguage']) && isset($_GET['wordInForeignLanguage'])) { // user entered a new translation 
+			$wordInMyLanguage = htmlspecialchars($_GET['wordInMyLanguage']);
 			$wordInForeignLanguage = htmlspecialchars($_GET['wordInForeignLanguage']);
 			$pronunciationForeignWord = isset($_GET['pronunciationForeignWord']) ? htmlspecialchars($_GET['pronunciationForeignWord']) : "";
 			$isMylanguageInput = htmlspecialchars($_GET['isMylanguageInput']);
@@ -97,7 +97,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 				'wordInForeignLanguage' => $wordInForeignLanguage,
 				'wordInMyLanguage' => $wordInMyLanguage,
 				'pronunciationForeignWord' => $pronunciationForeignWord,
-				'isMylanguageInput' => $isMylanguageInput)) or die(print_r($reqInsertInputUserTranslation->errorInfo()));;				
+				'isMylanguageInput' => $isMylanguageInput)) or die(print_r($reqInsertInputUserTranslation->errorInfo()));				
 			$reqInsertInputUserTranslation->closeCursor();
 		}		
 ?>
@@ -177,7 +177,9 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 								.'<div class="rankRepetition">'
 									.($rankRepetition+1)
 								.'</div>'
-								.'<button id="translationMenu'.$i.'" onclick="openTranslationMenu('.$i.')">
+								.'<div id="containerTranslationMenu'.$i.'">'
+								.'</div>'
+								.'<button id="translationMenu'.$i.'" onclick="openTranslationMenu('.$i.')" value="+">
 									+'
 								.'</button>'
 							.'</div>';

@@ -122,50 +122,54 @@ function editWordInForeignLanguage(idTranslation) { // triggered when user asks 
 
 function openTranslationMenu(idTranslation) {  // faire une div de tout le menu et vérifier si a des enfants donc afficher, sinon créer
 	var oDOMTranslationMenu = document.getElementById('translationMenu'+idTranslation);
-	
-	if (oDOMTranslationMenu.hasChildNodes())
-	
-	oDOMTranslationMenu.textContent = '-';
 	var oDOMContainerWordReminder = document.getElementById('containerWordReminder'+idTranslation);
+	var oDOMcontainerTranslationMenu = document.getElementById('containerTranslationMenu'+idTranslation);
 	var oDOMcontainerPronunciationForeignWord = document.getElementById("containerPronunciationForeignWord"+idTranslation);
-	oDOMcontainerPronunciationForeignWord.style.display = 'none';
-	var oDOMDeleteTranslation = document.createElement('button');
-	oDOMDeleteTranslation.textContent = 'X';
-	oDOMDeleteTranslation.id = "deleteTranslation" + idTranslation;
-	oDOMDeleteTranslation.addEventListener('click', function () {
-		var oDOMFormDeleteTranslation = document.createElement('form');
-		oDOMFormDeleteTranslation.method='get';
-		oDOMFormDeleteTranslation.action='MemoryRepeater.php';
-		var oDOMHiddenIdInDdb = document.createElement('input');
-		oDOMHiddenIdInDdb.type = 'hidden';
-		oDOMHiddenIdInDdb.name = 'idInDdb';
-		oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
-		var oDOMHiddenIdTopic = document.createElement('input');
-		oDOMHiddenIdTopic.type = 'hidden';
-		oDOMHiddenIdTopic.name = 'idTopic';
-		oDOMHiddenIdTopic.value = idTopic;
-		var oDOMHiddenIsDelete = document.createElement('input');
-		oDOMHiddenIsDelete.type = 'hidden';
-		oDOMHiddenIsDelete.name = 'IsDelete';
-		oDOMHiddenIsDelete.value = 1;
-		oDOMContainerWordReminder.appendChild(oDOMFormDeleteTranslation);
-		oDOMFormDeleteTranslation.appendChild(oDOMHiddenIsDelete);
-		oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdInDdb);
-		oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdTopic);
-		oDOMFormDeleteTranslation.submit();
-	},false);
-	oDOMContainerWordReminder.insertBefore(oDOMDeleteTranslation, oDOMTranslationMenu);
-	oDOMTranslationMenu.addEventListener('click', function () {
-		//alert(oDOMContainerWordReminder.id);
-		//alert(oDOMDeleteTranslation.textContent);
-		oDOMContainerWordReminder.removeChild(document.getElementById('deleteTranslation' + idTranslation));
-		oDOMcontainerPronunciationForeignWord.style.display = "inline";
-		oDOMTranslationMenu.textContent = '+';
-		oDOMTranslationMenu.addEventListener('click', function () {
-			openTranslationMenu(idTranslation);
-		}, false);
-	},false);
 	
+	if (oDOMTranslationMenu.value === "+") {
+		oDOMTranslationMenu.value = '-';
+		oDOMTranslationMenu.textContent = '-';
+		oDOMcontainerPronunciationForeignWord.style.display = 'none';
+		if (oDOMcontainerTranslationMenu.hasChildNodes()) {
+			oDOMcontainerTranslationMenu.style.display = 'block';
+			oDOMcontainerPronunciationForeignWord.style.display = "none";			
+		}
+		else {
+			var oDOMDeleteTranslation = document.createElement('button');
+			oDOMDeleteTranslation.textContent = 'X';
+			oDOMDeleteTranslation.className = 'deleteTranslation';
+			oDOMDeleteTranslation.id = "deleteTranslation" + idTranslation;
+			oDOMDeleteTranslation.addEventListener('click', function () {
+				var oDOMFormDeleteTranslation = document.createElement('form');
+				oDOMFormDeleteTranslation.method='get';
+				oDOMFormDeleteTranslation.action='MemoryRepeater.php';
+				var oDOMHiddenIdInDdb = document.createElement('input');
+				oDOMHiddenIdInDdb.type = 'hidden';
+				oDOMHiddenIdInDdb.name = 'idInDdb';
+				oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
+				var oDOMHiddenIdTopic = document.createElement('input');
+				oDOMHiddenIdTopic.type = 'hidden';
+				oDOMHiddenIdTopic.name = 'idTopic';
+				oDOMHiddenIdTopic.value = idTopic;
+				var oDOMHiddenIsDelete = document.createElement('input');
+				oDOMHiddenIsDelete.type = 'hidden';
+				oDOMHiddenIsDelete.name = 'IsDelete';
+				oDOMHiddenIsDelete.value = 1;
+				oDOMcontainerTranslationMenu.appendChild(oDOMFormDeleteTranslation);
+				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIsDelete);
+				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdInDdb);
+				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdTopic);
+				oDOMFormDeleteTranslation.submit();
+			},false);
+			oDOMcontainerTranslationMenu.appendChild(oDOMDeleteTranslation);
+		}
+	}
+	else { // so oDOMTranslationMenu.value = '-'
+		oDOMcontainerTranslationMenu.style.display = 'none';
+		oDOMcontainerPronunciationForeignWord.style.display = "inline";
+		oDOMTranslationMenu.value = '+';
+		oDOMTranslationMenu.textContent = '+';			
+	}
 }  
 
 

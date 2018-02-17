@@ -58,3 +58,9 @@
 {
 	width: 100%;
 }
+
+.deleteTranslation
+{
+	background-color: red;
+	cursor: pointer;
+}
