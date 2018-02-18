@@ -81,6 +81,32 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqDeleteTranslation->closeCursor();
 		}		
 		
+		if (isset($_GET['IsToRepeat']) && isset($_GET['idInDdb'])) { // User wants to repeat the same recall step 
+			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+
+			$reqRepeatRecall = $bdd -> prepare('UPDATE translations 
+				SET datePreviewsRecall = NOW()
+				WHERE id=:idInDdb AND idUser=:idUser AND idTopic=:idTopic');
+				$reqRepeatRecall -> execute(array(
+				'idInDdb' => $idInDdb,
+				'idUser' => $_SESSION['id'],
+				'idTopic' => $idTopic));				
+			$reqRepeatRecall->closeCursor();
+		}		
+
+		if (isset($_GET['IsApproved']) && isset($_GET['idInDdb'])) { // User asks to go to next recall step 
+			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+
+			$reqRepeatRecall = $bdd -> prepare('UPDATE translations 
+				SET datePreviewsRecall = NOW(), rankRepetition = rankRepetition + 1
+				WHERE id=:idInDdb AND idUser=:idUser AND idTopic=:idTopic');
+				$reqRepeatRecall -> execute(array(
+				'idInDdb' => $idInDdb,
+				'idUser' => $_SESSION['id'],
+				'idTopic' => $idTopic));				
+			$reqRepeatRecall->closeCursor();
+		}		
+		
 		
 		if (isset($_GET['wordInMyLanguage']) && isset($_GET['wordInForeignLanguage'])) { // user entered a new translation 
 			$wordInMyLanguage = htmlspecialchars($_GET['wordInMyLanguage']);
@@ -89,8 +115,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$isMylanguageInput = htmlspecialchars($_GET['isMylanguageInput']);
 
 			$reqInsertInputUserTranslation = $bdd -> prepare('INSERT INTO translations(idUser,idTopic,wordInMyLanguage,
-				wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput,rankRepetition,dateCreation)
-				VALUES (:idUser,:idTopic,:wordInMyLanguage,:wordInForeignLanguage,:pronunciationForeignWord,:isMylanguageInput,0,NOW())');
+				wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput,rankRepetition,dateCreation,datePreviewsRecall)
+				VALUES (:idUser,:idTopic,:wordInMyLanguage,:wordInForeignLanguage,:pronunciationForeignWord,:isMylanguageInput,0,NOW(),NOW())');
 				$reqInsertInputUserTranslation -> execute(array(
 				'idUser' => $_SESSION['id'],
 				'idTopic' => $idTopic,
@@ -136,8 +162,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqFetchWordsToRemind = $bdd -> prepare('SELECT id,wordInMyLanguage,wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput 
 				FROM translations 
 				WHERE idUser=:idUser AND idTopic=:idTopic 
-				AND dateCreation < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent HOUR) 
-				AND dateCreation > SUBDATE(NOW(),INTERVAL :repetionTimeNext HOUR)
+				AND datePreviewsRecall < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent HOUR) 
+				AND datePreviewsRecall > SUBDATE(NOW(),INTERVAL :repetionTimeNext HOUR)
 				AND rankRepetition=:rankRepetition');
 				$reqFetchWordsToRemind -> execute(array(
 				'idUser' => $_SESSION['id'],

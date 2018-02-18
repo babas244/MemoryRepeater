@@ -63,4 +63,19 @@
 {
 	background-color: red;
 	cursor: pointer;
+	display: inline-block;
+}
+
+.reminderApproved
+{
+	background-color: green;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.reminderIsToRepeat
+{
+	background-color: blue;
+	cursor: pointer;
+	display: inline-block;
 }
