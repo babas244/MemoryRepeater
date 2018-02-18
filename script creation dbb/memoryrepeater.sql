@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 18 Février 2018 à 05:44
+-- Généré le :  Dim 18 Février 2018 à 06:39
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.4
 
@@ -49,7 +49,8 @@ CREATE TABLE `translations` (
   `pronunciationForeignWord` varchar(255) NOT NULL,
   `isMylanguageInput` tinyint(1) NOT NULL,
   `rankRepetition` tinyint(255) NOT NULL,
-  `dateCreation` timestamp NOT NULL
+  `dateCreation` timestamp NOT NULL,
+  `datePreviewsRecall` timestamp NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -101,7 +102,7 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT pour la table `translations`
 --
 ALTER TABLE `translations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
