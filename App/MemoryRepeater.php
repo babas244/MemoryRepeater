@@ -9,7 +9,7 @@ require '../sessionAuthentication.php';
 if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 	require '../isIdTopicSafeAndMatchUser.php';
 	$idTopic = htmlspecialchars($_GET['idTopic']);	
-	$reqGetTopic = $bdd -> prepare('SELECT topic, colorBackGround FROM topics WHERE idUser=:idUser AND id=:idTopic');
+	$reqGetTopic = $bdd -> prepare('SELECT topic, colorBackGround FROM languages WHERE idUser=:idUser AND id=:idTopic');
 		$reqGetTopic -> execute(array(
 		'idUser' => $_SESSION['id'],
 		'idTopic' => $idTopic));

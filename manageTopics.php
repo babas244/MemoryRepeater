@@ -62,26 +62,26 @@ if (!isset($_SESSION['id'])) {
 			echo '<a href="logout.php">(se déconnecter)</a>';	
 			// require 'log_in_bdd.php'; // besoin ou pas ??
 			
-			$req = $bdd -> prepare('SELECT topic,id,colorBackGround,colorFont FROM topics WHERE idUser= :idUser'); //
+			$req = $bdd -> prepare('SELECT topic,id,colorBackGround,colorFont FROM languages WHERE idUser= :idUser'); //
 			$req -> execute (array (
 				'idUser' => $_SESSION['id'])); 
 			
-			$topics = "";
+			$languages = "";
 			$atLeastOneCaetgory = false;
 			
 			while ($donnees = $req->fetch()) {
 				$atLeastOneCaetgory = true;
-				$topics .= "<div id=\"topic".$donnees['id']."\" style=\"Background-color : ".$donnees['colorBackGround'].";color : ".$donnees['colorFont']."\" onclick=\"document.location.href='App/MemoryRepeater.php?idTopic=".$donnees['id']."'\">".$donnees['topic']."</div>";
+				$languages .= "<div id=\"topic".$donnees['id']."\" style=\"Background-color : ".$donnees['colorBackGround'].";color : ".$donnees['colorFont']."\" onclick=\"document.location.href='App/MemoryRepeater.php?idTopic=".$donnees['id']."'\">".$donnees['topic']."</div>";
 			}
 			
 			if ($atLeastOneCaetgory) {
-				$topics = "<br><br>Vous avez enregistré les <strong>langages étrangers</strong> suivants :<br><br>" . $topics;
+				$languages = "<br><br>Vous avez enregistré les <strong>langages étrangers</strong> suivants :<br><br>" . $languages;
 			}
 			else {
-				$topics = "<br><br>Vous n'avez pas encore de liste de mots définis dans un langage étranger. <Br>Ajouter ci-dessous un nouveau langage étranger et donnez lui des couleurs pour le rendre facilement identifiable.";		
+				$languages = "<br><br>Vous n'avez pas encore de liste de mots définis dans un langage étranger. <Br>Ajouter ci-dessous un nouveau langage étranger et donnez lui des couleurs pour le rendre facilement identifiable.";		
 			}
 			
-			echo $topics;
+			echo $languages;
 			?>
 			<br><br>
 			 

@@ -27,7 +27,7 @@ if (isset($_SESSION['id']) && isset($_POST['newTopic']) && isset($_POST['colorBa
 		
 		// déterminer si le topic existe déjà
 		$bTopicAlreadyExists = false;	
-		$reqCheckifTopicAlreadyExists = $bdd->prepare('SELECT topic FROM topics WHERE idUser=:idUser');
+		$reqCheckifTopicAlreadyExists = $bdd->prepare('SELECT topic FROM languages WHERE idUser=:idUser');
 			$reqCheckifTopicAlreadyExists -> execute (array(
 			'idUser' => $_SESSION['id']));
 			while ($donnees = $reqCheckifTopicAlreadyExists -> fetch()) {
@@ -42,7 +42,7 @@ if (isset($_SESSION['id']) && isset($_POST['newTopic']) && isset($_POST['colorBa
 		}
 		else {
 			// Insérer le nouveau topic. 
-			$reqInsertTopic = $bdd->prepare('INSERT INTO topics(topic, idUser, colorBackGround, colorFont) VALUE (:topic, :idUser, :colorBackGround, :colorFont)');
+			$reqInsertTopic = $bdd->prepare('INSERT INTO languages(topic, idUser, colorBackGround, colorFont) VALUE (:topic, :idUser, :colorBackGround, :colorFont)');
 			$reqInsertTopic -> execute (array(
 				'topic' => $newTopic,
 				'idUser' => $_SESSION['id'],
@@ -51,8 +51,8 @@ if (isset($_SESSION['id']) && isset($_POST['newTopic']) && isset($_POST['colorBa
 			//echo "Le nouveau Sujet ".$newTopic." a été crée.";
 			$reqInsertTopic -> closeCursor();
 			
-			// Déterminer l'id du topic fraichement créé dans topics
-			$reqGetIdOfTopic = $bdd->prepare('SELECT id FROM topics WHERE topic=:topic AND idUser=:idUser');
+			// Déterminer l'id du topic fraichement créé dans languages
+			$reqGetIdOfTopic = $bdd->prepare('SELECT id FROM languages WHERE topic=:topic AND idUser=:idUser');
 			$reqGetIdOfTopic -> execute (array(
 				'topic' => $newTopic,
 				'idUser' => $_SESSION['id']));

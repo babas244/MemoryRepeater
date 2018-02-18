@@ -23,10 +23,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `topics`
+-- Structure de la table `languages`
 --
 
-CREATE TABLE `topics` (
+CREATE TABLE `languages` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `topic` varchar(255) NOT NULL,
@@ -72,9 +72,9 @@ CREATE TABLE `users` (
 --
 
 --
--- Index pour la table `topics`
+-- Index pour la table `languages`
 --
-ALTER TABLE `topics`
+ALTER TABLE `languages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -94,9 +94,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT pour la table `topics`
+-- AUTO_INCREMENT pour la table `languages`
 --
-ALTER TABLE `topics`
+ALTER TABLE `languages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `translations`
