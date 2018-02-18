@@ -149,7 +149,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		</div>
 
 <?php
-		$aRepetitionTimes[0] = 0;
+		$aRepetitionTimes[0] = 1;
 		$aRepetitionTimes[1] = 24;
 		$aRepetitionTimes[2] = 24*7;
 		$aRepetitionTimes[3] = 24*30;
@@ -163,13 +163,11 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 				FROM translations 
 				WHERE idUser=:idUser AND idTopic=:idTopic 
 				AND datePreviewsRecall < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent HOUR) 
-				AND datePreviewsRecall > SUBDATE(NOW(),INTERVAL :repetionTimeNext HOUR)
 				AND rankRepetition=:rankRepetition');
 				$reqFetchWordsToRemind -> execute(array(
 				'idUser' => $_SESSION['id'],
 				'idTopic' => $idTopic,
 				'repetionTimeCurrent' => $aRepetitionTimes[$rankRepetition],
-				'repetionTimeNext' => $aRepetitionTimes[$rankRepetition + 1],
 				'rankRepetition'=> $rankRepetition));
 				
 				while ($translationsList = $reqFetchWordsToRemind-> fetch()) {
