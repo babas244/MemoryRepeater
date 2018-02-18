@@ -66,14 +66,14 @@
 	display: inline-block;
 }
 
-.reminderApproved
+.recallApproved
 {
 	background-color: green;
 	cursor: pointer;
 	display: inline-block;
 }
 
-.reminderIsToRepeat
+.recallIsToRepeat
 {
 	background-color: blue;
 	cursor: pointer;

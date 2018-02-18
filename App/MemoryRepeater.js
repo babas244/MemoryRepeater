@@ -194,7 +194,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			var oDOMRecallIsToRepeat = document.createElement('button');
 			oDOMRecallIsToRepeat.textContent = 'C';
 			oDOMRecallIsToRepeat.className = 'recallIsToRepeat';
-			oDOMRecallIsToRepeat.id = 'recallApproved' + idTranslation;
+			oDOMRecallIsToRepeat.id = 'recallIsToRepeat' + idTranslation;
 			oDOMRecallIsToRepeat.addEventListener('click', function () {
 				var oDOMFormRecallIsToRepeat = document.createElement('form');
 				oDOMFormRecallIsToRepeat.method='get';
