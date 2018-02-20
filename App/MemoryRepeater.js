@@ -64,8 +64,8 @@ function editWordInMyLanguage(idTranslation) { // triggered when user asks for u
 	var oDOMContainerWordInMyLanguage = document.getElementById("containerWordInMyLanguage"+idTranslation);
 	var oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage"+idTranslation);
 	var oDOMFormWordInMyLanguage = document.createElement('form');
-	oDOMFormWordInMyLanguage.method='get';
-	oDOMFormWordInMyLanguage.action='memoryRepeater.php';
+	oDOMFormWordInMyLanguage.method='POST';
+	oDOMFormWordInMyLanguage.action='memoryRepeater.php?idTopic=' + idTopic;
 	var oDOMInputWordInMyLanguage = document.createElement('input'); 
 	oDOMInputWordInMyLanguage.type = 'text'; 
 	oDOMInputWordInMyLanguage.name = 'newWordInMyLanguage';
@@ -74,18 +74,12 @@ function editWordInMyLanguage(idTranslation) { // triggered when user asks for u
 	oDOMHiddenIdInDdb.type = 'hidden';
 	oDOMHiddenIdInDdb.name = 'idInDdb';
 	oDOMHiddenIdInDdb.value = oDOMWordInMyLanguage.getAttribute('data-idInDdb');
-	var oDOMHiddenIdTopic = document.createElement('input');
-	oDOMHiddenIdTopic.type = 'hidden';
-	oDOMHiddenIdTopic.name = 'idTopic';
-	oDOMHiddenIdTopic.value = idTopic;
 	oDOMContainerWordInMyLanguage.appendChild(oDOMFormWordInMyLanguage);
 	oDOMFormWordInMyLanguage.appendChild(oDOMInputWordInMyLanguage);
 	oDOMFormWordInMyLanguage.appendChild(oDOMHiddenIdInDdb);
-	oDOMFormWordInMyLanguage.appendChild(oDOMHiddenIdTopic);
 	oDOMInputWordInMyLanguage.addEventListener('blur', function() {
 		oDOMFormWordInMyLanguage.removeChild(oDOMInputWordInMyLanguage);
 		oDOMFormWordInMyLanguage.removeChild(oDOMHiddenIdInDdb);
-		oDOMFormWordInMyLanguage.removeChild(oDOMHiddenIdTopic);
 	},false); 
 	oDOMInputWordInMyLanguage.focus();
 }
@@ -94,8 +88,8 @@ function editWordInForeignLanguage(idTranslation) { // triggered when user asks 
 	var oDOMContainerWordInForeignLanguage = document.getElementById("containerWordInForeignLanguage"+idTranslation);
 	var oDOMWordInForeignLanguage = document.getElementById("wordInForeignLanguage"+idTranslation);
 	var oDOMFormWordInForeignLanguage = document.createElement('form');
-	oDOMFormWordInForeignLanguage.method='get';
-	oDOMFormWordInForeignLanguage.action='memoryRepeater.php';
+	oDOMFormWordInForeignLanguage.method='POST';
+	oDOMFormWordInForeignLanguage.action='memoryRepeater.php?idTopic=' + idTopic;
 	var oDOMInputWordInForeignLanguage = document.createElement('input'); 
 	oDOMInputWordInForeignLanguage.type = 'text'; 
 	oDOMInputWordInForeignLanguage.name = 'newWordInForeignLanguage';
@@ -104,18 +98,12 @@ function editWordInForeignLanguage(idTranslation) { // triggered when user asks 
 	oDOMHiddenIdInDdb.type = 'hidden';
 	oDOMHiddenIdInDdb.name = 'idInDdb';
 	oDOMHiddenIdInDdb.value = oDOMWordInForeignLanguage.getAttribute('data-idInDdb');
-	var oDOMHiddenIdTopic = document.createElement('input');
-	oDOMHiddenIdTopic.type = 'hidden';
-	oDOMHiddenIdTopic.name = 'idTopic';
-	oDOMHiddenIdTopic.value = idTopic;
 	oDOMContainerWordInForeignLanguage.appendChild(oDOMFormWordInForeignLanguage);
 	oDOMFormWordInForeignLanguage.appendChild(oDOMInputWordInForeignLanguage);
 	oDOMFormWordInForeignLanguage.appendChild(oDOMHiddenIdInDdb);
-	oDOMFormWordInForeignLanguage.appendChild(oDOMHiddenIdTopic);
 	oDOMInputWordInForeignLanguage.addEventListener('blur', function() {
 		oDOMFormWordInForeignLanguage.removeChild(oDOMInputWordInForeignLanguage);
 		oDOMFormWordInForeignLanguage.removeChild(oDOMHiddenIdInDdb);
-		oDOMFormWordInForeignLanguage.removeChild(oDOMHiddenIdTopic);
 	},false); 
 	oDOMInputWordInForeignLanguage.focus();
 }
@@ -141,16 +129,12 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMDeleteTranslation.id = 'deleteTranslation' + idTranslation;
 			oDOMDeleteTranslation.addEventListener('click', function () {
 				var oDOMFormDeleteTranslation = document.createElement('form');
-				oDOMFormDeleteTranslation.method='get';
-				oDOMFormDeleteTranslation.action='memoryRepeater.php';
+				oDOMFormDeleteTranslation.method='POST';
+				oDOMFormDeleteTranslation.action='memoryRepeater.php?idTopic=' + idTopic;
 				var oDOMHiddenIdInDdb = document.createElement('input');
 				oDOMHiddenIdInDdb.type = 'hidden';
 				oDOMHiddenIdInDdb.name = 'idInDdb';
 				oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
-				var oDOMHiddenIdTopic = document.createElement('input');
-				oDOMHiddenIdTopic.type = 'hidden';
-				oDOMHiddenIdTopic.name = 'idTopic';
-				oDOMHiddenIdTopic.value = idTopic;
 				var oDOMHiddenIsDelete = document.createElement('input');
 				oDOMHiddenIsDelete.type = 'hidden';
 				oDOMHiddenIsDelete.name = 'IsDelete';
@@ -158,7 +142,6 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 				oDOMcontainerTranslationMenu.appendChild(oDOMFormDeleteTranslation);
 				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIsDelete);
 				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdInDdb);
-				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdTopic);
 				oDOMFormDeleteTranslation.submit();
 			},false);
 			oDOMcontainerTranslationMenu.appendChild(oDOMDeleteTranslation);
@@ -169,16 +152,12 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMRecallApproved.id = 'recallApproved' + idTranslation;
 			oDOMRecallApproved.addEventListener('click', function () {
 				var oDOMFormRecallApproved = document.createElement('form');
-				oDOMFormRecallApproved.method='get';
-				oDOMFormRecallApproved.action='memoryRepeater.php';
+				oDOMFormRecallApproved.method='POST';
+				oDOMFormRecallApproved.action='memoryRepeater.php?idTopic=' + idTopic;
 				var oDOMHiddenIdInDdb = document.createElement('input');
 				oDOMHiddenIdInDdb.type = 'hidden';
 				oDOMHiddenIdInDdb.name = 'idInDdb';
 				oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
-				var oDOMHiddenIdTopic = document.createElement('input');
-				oDOMHiddenIdTopic.type = 'hidden';
-				oDOMHiddenIdTopic.name = 'idTopic';
-				oDOMHiddenIdTopic.value = idTopic;
 				var oDOMHiddenIsApproved = document.createElement('input');
 				oDOMHiddenIsApproved.type = 'hidden';
 				oDOMHiddenIsApproved.name = 'IsApproved';
@@ -186,7 +165,6 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 				oDOMcontainerTranslationMenu.appendChild(oDOMFormRecallApproved);
 				oDOMFormRecallApproved.appendChild(oDOMHiddenIsApproved);
 				oDOMFormRecallApproved.appendChild(oDOMHiddenIdInDdb);
-				oDOMFormRecallApproved.appendChild(oDOMHiddenIdTopic);
 				oDOMFormRecallApproved.submit();
 			},false);
 			oDOMcontainerTranslationMenu.appendChild(oDOMRecallApproved);
@@ -197,16 +175,12 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMRecallIsToRepeat.id = 'recallIsToRepeat' + idTranslation;
 			oDOMRecallIsToRepeat.addEventListener('click', function () {
 				var oDOMFormRecallIsToRepeat = document.createElement('form');
-				oDOMFormRecallIsToRepeat.method='get';
-				oDOMFormRecallIsToRepeat.action='memoryRepeater.php';
+				oDOMFormRecallIsToRepeat.method='POST';
+				oDOMFormRecallIsToRepeat.action='memoryRepeater.php?idTopic=' + idTopic;
 				var oDOMHiddenIdInDdb = document.createElement('input');
 				oDOMHiddenIdInDdb.type = 'hidden';
 				oDOMHiddenIdInDdb.name = 'idInDdb';
 				oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
-				var oDOMHiddenIdTopic = document.createElement('input');
-				oDOMHiddenIdTopic.type = 'hidden';
-				oDOMHiddenIdTopic.name = 'idTopic';
-				oDOMHiddenIdTopic.value = idTopic;
 				var oDOMHiddenIsToRepeat = document.createElement('input');
 				oDOMHiddenIsToRepeat.type = 'hidden';
 				oDOMHiddenIsToRepeat.name = 'IsToRepeat';
@@ -214,7 +188,6 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 				oDOMcontainerTranslationMenu.appendChild(oDOMFormRecallIsToRepeat);
 				oDOMFormRecallIsToRepeat.appendChild(oDOMHiddenIsToRepeat);
 				oDOMFormRecallIsToRepeat.appendChild(oDOMHiddenIdInDdb);
-				oDOMFormRecallIsToRepeat.appendChild(oDOMHiddenIdTopic);
 				oDOMFormRecallIsToRepeat.submit();
 			},false);
 			oDOMcontainerTranslationMenu.appendChild(oDOMRecallIsToRepeat);			

@@ -39,9 +39,9 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 <?php
 		$idTranslationInDdb = array();
 				
-		if (isset($_GET['newWordInMyLanguage']) && isset($_GET['idInDdb'])) { //update word in my language 
-			$newWordInMyLanguage = htmlspecialchars($_GET['newWordInMyLanguage']);
-			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+		if (isset($_POST['newWordInMyLanguage']) && isset($_POST['idInDdb'])) { //update word in my language 
+			$newWordInMyLanguage = htmlspecialchars($_POST['newWordInMyLanguage']);
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
 
 			$reqUpdateWordInMyLanguage = $bdd -> prepare('UPDATE translations 
 				SET wordInMyLanguage=:newWordInMyLanguage
@@ -54,9 +54,9 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqUpdateWordInMyLanguage->closeCursor();
 		}
 
-		if (isset($_GET['newWordInForeignLanguage']) && isset($_GET['idInDdb'])) { //update word in foreign language
-			$newWordInForeignLanguage = htmlspecialchars($_GET['newWordInForeignLanguage']);
-			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+		if (isset($_POST['newWordInForeignLanguage']) && isset($_POST['idInDdb'])) { //update word in foreign language
+			$newWordInForeignLanguage = htmlspecialchars($_POST['newWordInForeignLanguage']);
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
 
 			$reqUpdateWordInForeignLanguage = $bdd -> prepare('UPDATE translations 
 				SET wordInForeignLanguage=:newWordInForeignLanguage
@@ -69,8 +69,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqUpdateWordInForeignLanguage->closeCursor();
 		}		
 		
-		if (isset($_GET['IsDelete']) && isset($_GET['idInDdb'])) { // if a translation was asked to be deleted
-			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+		if (isset($_POST['IsDelete']) && isset($_POST['idInDdb'])) { // if a translation was asked to be deleted
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
 
 			$reqDeleteTranslation = $bdd -> prepare('DELETE FROM translations 
 				WHERE id=:idInDdb AND idUser=:idUser AND idTopic=:idTopic');
@@ -81,8 +81,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqDeleteTranslation->closeCursor();
 		}		
 		
-		if (isset($_GET['IsToRepeat']) && isset($_GET['idInDdb'])) { // User wants to repeat the same recall step 
-			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+		if (isset($_POST['IsToRepeat']) && isset($_POST['idInDdb'])) { // User wants to repeat the same recall step 
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
 
 			$reqRepeatRecall = $bdd -> prepare('UPDATE translations 
 				SET datePreviewsRecall = NOW()
@@ -94,8 +94,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqRepeatRecall->closeCursor();
 		}		
 
-		if (isset($_GET['IsApproved']) && isset($_GET['idInDdb'])) { // User asks to go to next recall step 
-			$idInDdb = htmlspecialchars($_GET['idInDdb']);
+		if (isset($_POST['IsApproved']) && isset($_POST['idInDdb'])) { // User asks to go to next recall step 
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
 
 			$reqRepeatRecall = $bdd -> prepare('UPDATE translations 
 				SET datePreviewsRecall = NOW(), rankRepetition = rankRepetition + 1
@@ -108,11 +108,11 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		}		
 		
 		
-		if (isset($_GET['wordInMyLanguage']) && isset($_GET['wordInForeignLanguage'])) { // user entered a new translation 
-			$wordInMyLanguage = htmlspecialchars($_GET['wordInMyLanguage']);
-			$wordInForeignLanguage = htmlspecialchars($_GET['wordInForeignLanguage']);
-			$pronunciationForeignWord = isset($_GET['pronunciationForeignWord']) ? htmlspecialchars($_GET['pronunciationForeignWord']) : "";
-			$isMylanguageInput = htmlspecialchars($_GET['isMylanguageInput']);
+		if (isset($_POST['wordInMyLanguage']) && isset($_POST['wordInForeignLanguage'])) { // user entered a new translation 
+			$wordInMyLanguage = htmlspecialchars($_POST['wordInMyLanguage']);
+			$wordInForeignLanguage = htmlspecialchars($_POST['wordInForeignLanguage']);
+			$pronunciationForeignWord = isset($_POST['pronunciationForeignWord']) ? htmlspecialchars($_POST['pronunciationForeignWord']) : "";
+			$isMylanguageInput = htmlspecialchars($_POST['isMylanguageInput']);
 
 			$reqInsertInputUserTranslation = $bdd -> prepare('INSERT INTO translations(idUser,idTopic,wordInMyLanguage,
 				wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput,rankRepetition,dateCreation,datePreviewsRecall)
@@ -128,7 +128,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		}		
 ?>
 		<div id="containerForm">
-			<form id="formEnterTranslations" method="get" action="memoryRepeater.php">
+			<form id="formEnterTranslations" method="POST" action="memoryRepeater.php?idTopic=<?php echo $idTopic; ?>">
 				<div id = "containerInputTranslationsWithSubmit">
 					<div id = "containerInputTranslationsWithoutSubmit">
 						<div id="frameFormMyLanguage" class="frameFormInputLanguages">
@@ -140,7 +140,6 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 						<div id="frameFormForeignLanguage" class="frameFormInputLanguages">
 							<input type="text" placeHolder="en <?php echo $foreignLanguage;?>" id="wordInForeignLanguage" name="wordInForeignLanguage"  maxlength="255" disabled>
 						</div>
-						<input type="hidden" name="idTopic" value="<?php echo $idTopic; ?>"></input>
 					</div>
 					<input id="submitFormTranslation" type="submit" disabled>
 				</div>
