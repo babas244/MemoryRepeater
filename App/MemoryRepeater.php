@@ -32,7 +32,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
         <title>Memory repeater</title>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 		<meta name="robots" content="noindex,nofollow">
-		<link rel="stylesheet" href="MemoryRepeater.css" />
+		<link rel="stylesheet" href="memoryRepeater.css" />
     </head>
     <body>
 		<!-- -->
@@ -128,7 +128,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		}		
 ?>
 		<div id="containerForm">
-			<form id="formEnterTranslations" method="get" action="MemoryRepeater.php">
+			<form id="formEnterTranslations" method="get" action="memoryRepeater.php">
 				<div id = "containerInputTranslationsWithSubmit">
 					<div id = "containerInputTranslationsWithoutSubmit">
 						<div id="frameFormMyLanguage" class="frameFormInputLanguages">
@@ -216,7 +216,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			var idTopic = <?php echo $idTopic; ?>;
 			var foreignLanguage = "<?php echo $foreignLanguage; ?>";
 		</script> 
-		<script src="MemoryRepeater.js"></script>
+		<script src="memoryRepeater.js"></script>
     
 	</body>
 </html>

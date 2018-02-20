@@ -65,7 +65,7 @@ function editWordInMyLanguage(idTranslation) { // triggered when user asks for u
 	var oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage"+idTranslation);
 	var oDOMFormWordInMyLanguage = document.createElement('form');
 	oDOMFormWordInMyLanguage.method='get';
-	oDOMFormWordInMyLanguage.action='MemoryRepeater.php';
+	oDOMFormWordInMyLanguage.action='memoryRepeater.php';
 	var oDOMInputWordInMyLanguage = document.createElement('input'); 
 	oDOMInputWordInMyLanguage.type = 'text'; 
 	oDOMInputWordInMyLanguage.name = 'newWordInMyLanguage';
@@ -95,7 +95,7 @@ function editWordInForeignLanguage(idTranslation) { // triggered when user asks 
 	var oDOMWordInForeignLanguage = document.getElementById("wordInForeignLanguage"+idTranslation);
 	var oDOMFormWordInForeignLanguage = document.createElement('form');
 	oDOMFormWordInForeignLanguage.method='get';
-	oDOMFormWordInForeignLanguage.action='MemoryRepeater.php';
+	oDOMFormWordInForeignLanguage.action='memoryRepeater.php';
 	var oDOMInputWordInForeignLanguage = document.createElement('input'); 
 	oDOMInputWordInForeignLanguage.type = 'text'; 
 	oDOMInputWordInForeignLanguage.name = 'newWordInForeignLanguage';
@@ -142,7 +142,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMDeleteTranslation.addEventListener('click', function () {
 				var oDOMFormDeleteTranslation = document.createElement('form');
 				oDOMFormDeleteTranslation.method='get';
-				oDOMFormDeleteTranslation.action='MemoryRepeater.php';
+				oDOMFormDeleteTranslation.action='memoryRepeater.php';
 				var oDOMHiddenIdInDdb = document.createElement('input');
 				oDOMHiddenIdInDdb.type = 'hidden';
 				oDOMHiddenIdInDdb.name = 'idInDdb';
@@ -170,7 +170,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMRecallApproved.addEventListener('click', function () {
 				var oDOMFormRecallApproved = document.createElement('form');
 				oDOMFormRecallApproved.method='get';
-				oDOMFormRecallApproved.action='MemoryRepeater.php';
+				oDOMFormRecallApproved.action='memoryRepeater.php';
 				var oDOMHiddenIdInDdb = document.createElement('input');
 				oDOMHiddenIdInDdb.type = 'hidden';
 				oDOMHiddenIdInDdb.name = 'idInDdb';
@@ -198,7 +198,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMRecallIsToRepeat.addEventListener('click', function () {
 				var oDOMFormRecallIsToRepeat = document.createElement('form');
 				oDOMFormRecallIsToRepeat.method='get';
-				oDOMFormRecallIsToRepeat.action='MemoryRepeater.php';
+				oDOMFormRecallIsToRepeat.action='memoryRepeater.php';
 				var oDOMHiddenIdInDdb = document.createElement('input');
 				oDOMHiddenIdInDdb.type = 'hidden';
 				oDOMHiddenIdInDdb.name = 'idInDdb';

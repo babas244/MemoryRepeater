@@ -15,7 +15,7 @@ if (!isset($_SESSION['id'])) {
 	}
 	else {
 		require_once 'define CONSTANT domain.php';
-		header ('Location: '. DOMAIN .'/MemoryRepeater/index.php');
+		header ('Location: '. DOMAIN .'/memoryRepeater/index.php');
 		exit;
 	}
 }

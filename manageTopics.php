@@ -71,7 +71,7 @@ if (!isset($_SESSION['id'])) {
 			
 			while ($donnees = $req->fetch()) {
 				$atLeastOneCaetgory = true;
-				$languages .= "<div id=\"topic".$donnees['id']."\" style=\"Background-color : ".$donnees['colorBackGround'].";color : ".$donnees['colorFont']."\" onclick=\"document.location.href='App/MemoryRepeater.php?idTopic=".$donnees['id']."'\">".$donnees['topic']."</div>";
+				$languages .= "<div id=\"topic".$donnees['id']."\" style=\"Background-color : ".$donnees['colorBackGround'].";color : ".$donnees['colorFont']."\" onclick=\"document.location.href='App/memoryRepeater.php?idTopic=".$donnees['id']."'\">".$donnees['topic']."</div>";
 			}
 			
 			if ($atLeastOneCaetgory) {
