@@ -62,20 +62,21 @@
 .deleteTranslation
 {
 	background-color: red;
-	cursor: pointer;
-	display: inline-block;
 }
 
 .recallApproved
 {
 	background-color: green;
-	cursor: pointer;
-	display: inline-block;
 }
 
 .recallIsToRepeat
 {
 	background-color: blue;
+}
+
+.translationMenu
+{
+	margin: 5px;
 	cursor: pointer;
 	display: inline-block;
 }

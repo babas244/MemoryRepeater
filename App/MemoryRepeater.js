@@ -125,7 +125,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 		else {
 			var oDOMDeleteTranslation = document.createElement('button'); // button delete translation
 			oDOMDeleteTranslation.textContent = 'X';
-			oDOMDeleteTranslation.className = 'deleteTranslation';
+			oDOMDeleteTranslation.className = 'deleteTranslation translationMenu';
 			oDOMDeleteTranslation.id = 'deleteTranslation' + idTranslation;
 			oDOMDeleteTranslation.addEventListener('click', function () {
 				var oDOMFormDeleteTranslation = document.createElement('form');
@@ -148,7 +148,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			
 			var oDOMRecallApproved = document.createElement('button'); // button go to next recall
 			oDOMRecallApproved.textContent = 'V';
-			oDOMRecallApproved.className = 'recallApproved';
+			oDOMRecallApproved.className = 'recallApproved translationMenu';
 			oDOMRecallApproved.id = 'recallApproved' + idTranslation;
 			oDOMRecallApproved.addEventListener('click', function () {
 				var oDOMFormRecallApproved = document.createElement('form');
@@ -171,7 +171,7 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			
 			var oDOMRecallIsToRepeat = document.createElement('button');
 			oDOMRecallIsToRepeat.textContent = 'C';
-			oDOMRecallIsToRepeat.className = 'recallIsToRepeat';
+			oDOMRecallIsToRepeat.className = 'recallIsToRepeat translationMenu';
 			oDOMRecallIsToRepeat.id = 'recallIsToRepeat' + idTranslation;
 			oDOMRecallIsToRepeat.addEventListener('click', function () {
 				var oDOMFormRecallIsToRepeat = document.createElement('form');
