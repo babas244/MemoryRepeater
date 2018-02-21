@@ -29,7 +29,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Memory repeater</title>
+        <title>Memory repeater - <?php echo $foreignLanguage;?></title>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 		<meta name="robots" content="noindex,nofollow">
 		<link rel="stylesheet" href="memoryRepeater.css" />
@@ -148,8 +148,9 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		</div>
 
 <?php
-		$aRepetitionTimes[0] = 1;
-		$aRepetitionTimes[1] = 24;
+		
+		$aRepetitionTimes[0] = 0;//1;
+		$aRepetitionTimes[1] = 1;//24;
 		$aRepetitionTimes[2] = 24*7;
 		$aRepetitionTimes[3] = 24*30;
 		$aRepetitionTimes[4] = 1*10^13;
@@ -158,10 +159,10 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 		$i = 0 ;
 		for ($rankRepetition = 0 ; $rankRepetition < count($aRepetitionTimes)-1 ; $rankRepetition ++) {
 
-			$reqFetchWordsToRemind = $bdd -> prepare('SELECT id,wordInMyLanguage,wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput 
+			$reqFetchWordsToRemind = $bdd -> prepare('SELECT id,wordInMyLanguage,wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput,dateCreation 
 				FROM translations 
 				WHERE idUser=:idUser AND idTopic=:idTopic 
-				AND datePreviewsRecall < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent HOUR) 
+				AND datePreviewsRecall < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent MINUTE) 
 				AND rankRepetition=:rankRepetition');
 				$reqFetchWordsToRemind -> execute(array(
 				'idUser' => $_SESSION['id'],
@@ -199,6 +200,9 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 								.'</div>'
 								.'<div class="rankRepetition">'
 									.($rankRepetition+1)
+									.'<span class="delayedTimeOfRecall">'
+										.'+'.delayedTimeOfRecall($translationsList['dateCreation'],$rankRepetition)
+									.'<span>'	
 								.'</div>'
 								.'<div id="containerTranslationMenu'.$i.'">'
 								.'</div>'
@@ -209,6 +213,20 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 				$i++;
 				}
 			$reqFetchWordsToRemind->closeCursor();	
+		}
+
+		function delayedTimeOfRecall($sDateCreation,$rankRepetition) {
+			global $aRepetitionTimes;
+			$oDateNormalRecall = new DateTime($sDateCreation);
+			//echo "DateNormalRecall=".date_format($oDateNormalRecall,"Y-m-d h:i:s").'<Br><Br>';
+			date_add($oDateNormalRecall,date_interval_create_from_date_string($aRepetitionTimes[$rankRepetition]." minute")); // $aRepetitionTimes[$rankRepetition]
+			//echo '$oDateNormalRecall après = '.date_format($oDateNormalRecall,"Y-m-d h:i:s").'<Br><Br>';
+			$oDateNow = new DateTime();
+			//echo "now =".date_format($oDateNow,"Y-m-d h:i:s").'<Br><Br>';
+			$diff = date_diff($oDateNormalRecall,$oDateNow);
+			$days = $diff->format("%a");
+			
+			return $days === '0' ? $diff->format("%hh") : $days.'j';
 		}
 ?>
 		<script>

@@ -79,3 +79,9 @@
 	cursor: pointer;
 	display: inline-block;
 }
+
+.delayedTimeOfRecall
+{
+	font-size:0.7em;
+	color:red;
+}
