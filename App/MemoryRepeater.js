@@ -3,6 +3,8 @@ var myLanguage = "français";
 
 oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage");
 oDOMWordInForeignLanguage = document.getElementById("wordInForeignLanguage");
+oDOMPronunciationForeignWord = document.getElementById("pronunciationForeignWord");
+
 oDOMSubmitFormTranslation = document.getElementById("submitFormTranslation");
 oDOMIsMylanguageInput = document.getElementById("isMylanguageInput");
 
@@ -10,7 +12,6 @@ oDOMWordInMyLanguage.focus();
 
 oDOMWordInMyLanguage.addEventListener("input", checkIfFormIsSendable, false);
 oDOMWordInForeignLanguage.addEventListener("input", checkIfFormIsSendable, false);
-
 
 document.getElementById("changeInputLanguage").addEventListener("click", changeInputLanguage, false);
 
@@ -20,7 +21,8 @@ function checkIfFormIsSendable() { // check if translation form is correct
 	}
 	
 	if (oDOMWordInForeignLanguage.value !== "") {
-		oDOMWordInMyLanguage.disabled = false;		
+		oDOMWordInMyLanguage.disabled = false;
+		oDOMPronunciationForeignWord.disabled = false;
 	}
 
 	if (oDOMWordInMyLanguage.value !== "" && oDOMWordInForeignLanguage.value !== "") {
@@ -130,6 +132,32 @@ function editWordInForeignLanguage(idTranslation) { // triggered when user asks 
 	oDOMInputWordInForeignLanguage.focus();
 }
 
+function editPronunciationForeignLanguage(idTranslation) { // triggered when user asks for updating pronunciation of foreign word 
+	var oDOMContainerPronunciationForeignWord = document.getElementById("containerPronunciationForeignWord"+idTranslation);
+	var oDOMPronunciationForeignWord = document.getElementById("pronunciationForeignWord"+idTranslation);
+	var oDOMFormPronunciationForeignWord = document.createElement('form');
+	oDOMFormPronunciationForeignWord.method='POST';
+	oDOMFormPronunciationForeignWord.action='memoryRepeater.php?idTopic=' + idTopic;
+	var oDOMInputPronunciationForeignWord = document.createElement('input'); 
+	oDOMInputPronunciationForeignWord.type = 'text'; 
+	oDOMInputPronunciationForeignWord.name = 'newPronunciationForeignWord';
+	oDOMInputPronunciationForeignWord.value = oDOMPronunciationForeignWord.textContent;
+	var oDOMHiddenIdInDdb = document.createElement('input');
+	oDOMHiddenIdInDdb.type = 'hidden';
+	oDOMHiddenIdInDdb.name = 'idInDdb';
+	oDOMHiddenIdInDdb.value = oDOMPronunciationForeignWord.getAttribute('data-idInDdb');
+	oDOMContainerPronunciationForeignWord.appendChild(oDOMFormPronunciationForeignWord);
+	oDOMFormPronunciationForeignWord.appendChild(oDOMInputPronunciationForeignWord);
+	oDOMFormPronunciationForeignWord.appendChild(oDOMHiddenIdInDdb);
+	oDOMInputPronunciationForeignWord.addEventListener('blur', function() {
+		oDOMFormPronunciationForeignWord.removeChild(oDOMInputPronunciationForeignWord);
+		oDOMFormPronunciationForeignWord.removeChild(oDOMHiddenIdInDdb);
+	},false); 
+	oDOMInputPronunciationForeignWord.focus();
+}
+
+
+
 function openTranslationMenu(idTranslation) {  // faire une div de tout le menu et vérifier si a des enfants donc afficher, sinon créer
 	var oDOMTranslationMenu = document.getElementById('translationMenu'+idTranslation);
 	var oDOMContainerWordReminder = document.getElementById('containerWordReminder'+idTranslation);
@@ -188,9 +216,9 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 				oDOMFormRecallIsToRepeat.appendChild(oDOMHiddenIsToRepeat);
 				oDOMFormRecallIsToRepeat.appendChild(oDOMHiddenIdInDdb);
 				oDOMFormRecallIsToRepeat.submit();
-			},false);
+			},false);			
+			oDOMcontainerTranslationMenu.appendChild(oDOMRecallIsToRepeat);	
 			
-			oDOMcontainerTranslationMenu.appendChild(oDOMRecallIsToRepeat);			
 			var oDOMDeleteTranslation = document.createElement('button'); // button delete translation
 			oDOMDeleteTranslation.textContent = 'X';
 			oDOMDeleteTranslation.className = 'deleteTranslation translationMenu';

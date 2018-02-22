@@ -68,6 +68,22 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 				'newWordInForeignLanguage' => $newWordInForeignLanguage));				
 			$reqUpdateWordInForeignLanguage->closeCursor();
 		}		
+
+		if (isset($_POST['newPronunciationForeignWord']) && isset($_POST['idInDdb'])) { //update pronunciation of foreign word
+			$newWordInForeignLanguage = htmlspecialchars($_POST['newPronunciationForeignWord']);
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
+
+			$reqUpdateWordInForeignLanguage = $bdd -> prepare('UPDATE translations 
+				SET pronunciationForeignWord=:pronunciationForeignWord
+				WHERE id=:idInDdb AND idUser=:idUser AND idTopic=:idTopic');
+				$reqUpdateWordInForeignLanguage -> execute(array(
+				'idInDdb' => $idInDdb,
+				'idUser' => $_SESSION['id'],
+				'idTopic' => $idTopic,
+				'pronunciationForeignWord' => $newWordInForeignLanguage));				
+			$reqUpdateWordInForeignLanguage->closeCursor();
+		}		
+
 		
 		if (isset($_POST['IsDelete']) && isset($_POST['idInDdb'])) { // if a translation was asked to be deleted
 			$idInDdb = htmlspecialchars($_POST['idInDdb']);
@@ -140,6 +156,9 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 						<div id="frameFormForeignLanguage" class="frameFormInputLanguages">
 							<input type="text" placeHolder="en <?php echo $foreignLanguage;?>" id="wordInForeignLanguage" name="wordInForeignLanguage"  maxlength="255" disabled>
 						</div>
+						<div id="frameFormPronunciationForeignWord" class="frameFormInputLanguages">
+							<input type="text" placeHolder="prononciation" id="pronunciationForeignWord" name="pronunciationForeignWord"  maxlength="255" disabled>
+						</div>					
 					</div>
 					<input id="submitFormTranslation" type="submit" disabled>
 				</div>
@@ -149,7 +168,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 
 <?php
 		
-		$aRepetitionTimes[0] = 0;
+		$aRepetitionTimes[0] = 1;
 		$aRepetitionTimes[1] = 24;
 		$aRepetitionTimes[2] = 24*7;
 		$aRepetitionTimes[3] = 24*30;
@@ -179,6 +198,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 					$IdinDdbFetched = $translationsList['id'];
 					$wordInForeignLanguageFetched = $translationsList['wordInForeignLanguage'];
 					$pronunciationForeignWordFetched = $translationsList['pronunciationForeignWord'];
+					$buttonPronunciationDisabledOrNot = $pronunciationForeignWordFetched ==='' ? 'disabled' : '';
 					$wordInMyLanguageFetched = $translationsList['wordInMyLanguage'];
 					
 					echo 	'<div id="containerWordReminder'.$i.'" class="containerWordReminder" data-isMylanguageInput="'.$isMylanguageInputInReminders.'">
@@ -195,10 +215,13 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 										.$wordInForeignLanguageFetched
 									.'</span>'	
 								.'</div>'
-								.'<div id="containerPronunciationForeignWord'.$i.'" class="wordReminder pronunciationForeignWord">'
+								.'<button id="showPronunciation'.$i.'"'.$buttonPronunciationDisabledOrNot.'>
+									>'
+								.'</button>'
+								.'<div id="containerPronunciationForeignWord'.$i.'" class="wordReminder pronunciationForeignWord" onclick="editPronunciationForeignLanguage('.$i.')">'
 									.'<span id="pronunciationForeignWord'.$i.'" data-idInDdb="'.$IdinDdbFetched.'" style="display:'.$displayForeignLanguage.'">'
 										.$pronunciationForeignWordFetched
-									.'</span>'	
+									.'</span>'
 								.'</div>'
 								.'<div class="rankRepetition">'
 									.($rankRepetition+1)

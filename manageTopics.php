@@ -50,7 +50,7 @@ if (!isset($_SESSION['id'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Organiznotes - manage Topics</title>
+        <title>Memory Repeater - manage Topics</title>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 		<meta name="robots" content="noindex,nofollow">
 		<link rel="stylesheet" href="manageTopics.css" />
