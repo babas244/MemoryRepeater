@@ -215,11 +215,11 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 										.$wordInForeignLanguageFetched
 									.'</span>'	
 								.'</div>'
-								.'<button id="showPronunciation'.$i.'"'.$buttonPronunciationDisabledOrNot.'>
+								.'<button id="showPronunciation'.$i.'" onclick="showPronunciation('.$i.')"'.$buttonPronunciationDisabledOrNot.'>
 									>'
 								.'</button>'
 								.'<div id="containerPronunciationForeignWord'.$i.'" class="wordReminder pronunciationForeignWord" onclick="editPronunciationForeignLanguage('.$i.')">'
-									.'<span id="pronunciationForeignWord'.$i.'" data-idInDdb="'.$IdinDdbFetched.'" style="display:'.$displayForeignLanguage.'">'
+									.'<span id="pronunciationForeignWord'.$i.'" data-idInDdb="'.$IdinDdbFetched.'" style="display:none">'
 										.$pronunciationForeignWordFetched
 									.'</span>'
 								.'</div>'
