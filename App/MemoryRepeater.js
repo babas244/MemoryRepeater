@@ -56,8 +56,30 @@ function changeInputLanguage() { // triggered when user presses double arrow but
 }
 
 function showTranslation(idTranslation) { // triggered when user presses button to hidden translation
-	document.getElementById("wordInMyLanguage"+idTranslation).style.display = "inline";
-	document.getElementById("wordInForeignLanguage"+idTranslation).style.display = "inline";
+	var isMylanguageInputInReminder = document.getElementById("containerWordReminder"+idTranslation).getAttribute('data-isMylanguageInput') === "0" ? false : true;
+	var oDOMShowTranslation = document.getElementById('showTranslation' + idTranslation);
+	if (isMylanguageInputInReminder) {
+		var oDOMwordInForeignLanguage = document.getElementById("wordInForeignLanguage"+idTranslation);
+		if (oDOMwordInForeignLanguage.style.display === 'none') {
+			oDOMwordInForeignLanguage.style.display = 'inline';
+			oDOMShowTranslation.style.backgroundColor = 'green';
+		}
+		else {
+			oDOMwordInForeignLanguage.style.display = 'none';
+			oDOMShowTranslation.style.backgroundColor = 'orange';
+		}
+	}
+	else {
+		var oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage"+idTranslation);
+		if (oDOMWordInMyLanguage.style.display === 'none') {
+			oDOMWordInMyLanguage.style.display = 'inline';
+			oDOMShowTranslation.style.backgroundColor = 'green';
+		}
+		else {
+			oDOMWordInMyLanguage.style.display = 'none';
+			oDOMShowTranslation.style.backgroundColor = 'orange';
+		}
+	}
 }
 
 function editWordInMyLanguage(idTranslation) { // triggered when user asks for updating word in his language of a translation 
@@ -123,29 +145,6 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			oDOMcontainerPronunciationForeignWord.style.display = "none";			
 		}
 		else {
-			var oDOMDeleteTranslation = document.createElement('button'); // button delete translation
-			oDOMDeleteTranslation.textContent = 'X';
-			oDOMDeleteTranslation.className = 'deleteTranslation translationMenu';
-			oDOMDeleteTranslation.id = 'deleteTranslation' + idTranslation;
-			oDOMDeleteTranslation.addEventListener('click', function () {
-				var oDOMFormDeleteTranslation = document.createElement('form');
-				oDOMFormDeleteTranslation.method='POST';
-				oDOMFormDeleteTranslation.action='memoryRepeater.php?idTopic=' + idTopic;
-				var oDOMHiddenIdInDdb = document.createElement('input');
-				oDOMHiddenIdInDdb.type = 'hidden';
-				oDOMHiddenIdInDdb.name = 'idInDdb';
-				oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
-				var oDOMHiddenIsDelete = document.createElement('input');
-				oDOMHiddenIsDelete.type = 'hidden';
-				oDOMHiddenIsDelete.name = 'IsDelete';
-				oDOMHiddenIsDelete.value = 1;
-				oDOMcontainerTranslationMenu.appendChild(oDOMFormDeleteTranslation);
-				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIsDelete);
-				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdInDdb);
-				oDOMFormDeleteTranslation.submit();
-			},false);
-			oDOMcontainerTranslationMenu.appendChild(oDOMDeleteTranslation);
-			
 			var oDOMRecallApproved = document.createElement('button'); // button go to next recall
 			oDOMRecallApproved.textContent = 'V';
 			oDOMRecallApproved.className = 'recallApproved translationMenu';
@@ -190,8 +189,31 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 				oDOMFormRecallIsToRepeat.appendChild(oDOMHiddenIdInDdb);
 				oDOMFormRecallIsToRepeat.submit();
 			},false);
+			
 			oDOMcontainerTranslationMenu.appendChild(oDOMRecallIsToRepeat);			
-		}
+			var oDOMDeleteTranslation = document.createElement('button'); // button delete translation
+			oDOMDeleteTranslation.textContent = 'X';
+			oDOMDeleteTranslation.className = 'deleteTranslation translationMenu';
+			oDOMDeleteTranslation.id = 'deleteTranslation' + idTranslation;
+			oDOMDeleteTranslation.addEventListener('click', function () {
+				var oDOMFormDeleteTranslation = document.createElement('form');
+				oDOMFormDeleteTranslation.method='POST';
+				oDOMFormDeleteTranslation.action='memoryRepeater.php?idTopic=' + idTopic;
+				var oDOMHiddenIdInDdb = document.createElement('input');
+				oDOMHiddenIdInDdb.type = 'hidden';
+				oDOMHiddenIdInDdb.name = 'idInDdb';
+				oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
+				var oDOMHiddenIsDelete = document.createElement('input');
+				oDOMHiddenIsDelete.type = 'hidden';
+				oDOMHiddenIsDelete.name = 'IsDelete';
+				oDOMHiddenIsDelete.value = 1;
+				oDOMcontainerTranslationMenu.appendChild(oDOMFormDeleteTranslation);
+				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIsDelete);
+				oDOMFormDeleteTranslation.appendChild(oDOMHiddenIdInDdb);
+				oDOMFormDeleteTranslation.submit();
+			},false);
+			oDOMcontainerTranslationMenu.appendChild(oDOMDeleteTranslation);
+		}			
 	}
 	else { // so oDOMTranslationMenu.value = '-'
 		oDOMcontainerTranslationMenu.style.display = 'none';

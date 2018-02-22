@@ -149,8 +149,8 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 
 <?php
 		
-		$aRepetitionTimes[0] = 0;//1;
-		$aRepetitionTimes[1] = 1;//24;
+		$aRepetitionTimes[0] = 0;
+		$aRepetitionTimes[1] = 24;
 		$aRepetitionTimes[2] = 24*7;
 		$aRepetitionTimes[3] = 24*30;
 		$aRepetitionTimes[4] = 1*10^13;
@@ -162,7 +162,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqFetchWordsToRemind = $bdd -> prepare('SELECT id,wordInMyLanguage,wordInForeignLanguage,pronunciationForeignWord,isMylanguageInput,dateCreation 
 				FROM translations 
 				WHERE idUser=:idUser AND idTopic=:idTopic 
-				AND datePreviewsRecall < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent MINUTE) 
+				AND datePreviewsRecall < SUBDATE(NOW(),INTERVAL :repetionTimeCurrent HOUR) 
 				AND rankRepetition=:rankRepetition');
 				$reqFetchWordsToRemind -> execute(array(
 				'idUser' => $_SESSION['id'],
@@ -172,22 +172,24 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 				
 				while ($translationsList = $reqFetchWordsToRemind-> fetch()) {
 					
-					$displayMyLanguage = $translationsList['isMylanguageInput'] ? "inline" : "none";
-					$displayForeignLanguage = $translationsList['isMylanguageInput'] ? "none" : "inline";
+					$isMylanguageInputInReminders = $translationsList['isMylanguageInput'];
+					$displayMyLanguage = $isMylanguageInputInReminders ? "inline" : "none";
+					$arrowShowsWordToGuess = $isMylanguageInputInReminders ? "->" :"<-";
+					$displayForeignLanguage = $isMylanguageInputInReminders ? "none" : "inline";
 					$IdinDdbFetched = $translationsList['id'];
 					$wordInForeignLanguageFetched = $translationsList['wordInForeignLanguage'];
 					$pronunciationForeignWordFetched = $translationsList['pronunciationForeignWord'];
 					$wordInMyLanguageFetched = $translationsList['wordInMyLanguage'];
 					
-					echo 	'<div id="containerWordReminder'.$i.'" class="containerWordReminder">
+					echo 	'<div id="containerWordReminder'.$i.'" class="containerWordReminder" data-isMylanguageInput="'.$isMylanguageInputInReminders.'">
 								<div id="containerWordInMyLanguage'.$i.'" class="wordReminder wordInMyLanguage" onclick="editWordInMyLanguage('.$i.')">'
 									.'<span id="wordInMyLanguage'.$i.'" data-idInDdb="'.$IdinDdbFetched.'" style="display:'.$displayMyLanguage.'">'
 									.$wordInMyLanguageFetched
 									.'</span>'
 								.'</div>'
-								.'<button id="showWordMyLanguage'.$i.'" onclick="showTranslation('.$i.')">
-									Montrer
-								</button>'
+								.'<button id="showTranslation'.$i.'" onclick="showTranslation('.$i.')">'
+									.$arrowShowsWordToGuess
+								.'</button>'
 								.'<div id="containerWordInForeignLanguage'.$i.'" class="wordReminder wordInForeignLanguage" onclick="editWordInForeignLanguage('.$i.')">'
 									.'<span id="wordInForeignLanguage'.$i.'" data-idInDdb="'.$IdinDdbFetched.'" style="display:'.$displayForeignLanguage.'">'
 										.$wordInForeignLanguageFetched
@@ -219,10 +221,10 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			global $aRepetitionTimes;
 			$oDateNormalRecall = new DateTime($sDateCreation);
 			//echo "DateNormalRecall=".date_format($oDateNormalRecall,"Y-m-d h:i:s").'<Br><Br>';
-			date_add($oDateNormalRecall,date_interval_create_from_date_string($aRepetitionTimes[$rankRepetition]." minute")); // $aRepetitionTimes[$rankRepetition]
+			date_add($oDateNormalRecall,date_interval_create_from_date_string($aRepetitionTimes[$rankRepetition]." HOUR")); // $aRepetitionTimes[$rankRepetition]
 			//echo '$oDateNormalRecall après = '.date_format($oDateNormalRecall,"Y-m-d h:i:s").'<Br><Br>';
 			$oDateNow = new DateTime();
-			//echo "now =".date_format($oDateNow,"Y-m-d h:i:s").'<Br><Br>';
+			//echo "now =".date_format($oDateNow,"Y-m-d H:i:s").'<Br><Br>';
 			$diff = date_diff($oDateNormalRecall,$oDateNow);
 			$days = $diff->format("%a");
 			
