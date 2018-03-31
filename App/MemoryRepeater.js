@@ -293,3 +293,7 @@ function showPronunciation(idTranslation) { // button showPronunciation was clic
 		oDOMPronunciationForeignWord.style.display = 'none';
 	}	
 }
+
+function seeAllItemsInDb() {
+	window.open('seeAllItemsInDb/seeAllItemsInDb.php?idTopic='+idTopic);
+}

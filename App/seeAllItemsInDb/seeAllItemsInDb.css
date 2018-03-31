@@ -1,0 +1,32 @@
+.wordReminder
+{	
+	width: 40%; 
+	border: black solid 1px;
+	padding-left: 1px;
+	width: 100%;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow: auto; 
+	text-align: center;
+}
+
+.containerWordReminder
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.wordInMyLanguage
+{
+	background-color: #ddffdd;
+}
+
+.wordInForeignLanguage
+{
+	background-color: #ffdddd;
+}
+
+.tableHeader
+{
+	font-weight: bold;
+}

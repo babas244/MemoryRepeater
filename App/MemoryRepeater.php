@@ -268,6 +268,7 @@ echo"coucou";
 			return $days === '0' ? $diff->format("%hh") : $days.'j';
 		}
 ?>
+		<button id="seeAllItemsInDb" onclick="seeAllItemsInDb()">voir tout</button>
 		<script>
 			var idTopic = <?php echo $idTopic; ?>;
 			var foreignLanguage = "<?php echo $foreignLanguage; ?>";
