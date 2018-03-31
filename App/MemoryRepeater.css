@@ -74,6 +74,11 @@
 	background-color: slateblue;
 }
 
+.recallIsToDownGrade 
+{
+    background-color: aqua;
+}
+
 .translationMenu
 {
 	margin: 5px;

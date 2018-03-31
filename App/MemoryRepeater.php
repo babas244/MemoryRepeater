@@ -110,6 +110,20 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 			$reqRepeatRecall->closeCursor();
 		}		
 
+        if (isset($_POST['IsToDowngrade']) && isset($_POST['idInDdb'])) { // User wants to downgrade recall step 
+			$idInDdb = htmlspecialchars($_POST['idInDdb']);
+echo"coucou";
+			$reqDowngradeRecall = $bdd -> prepare('UPDATE translations 
+				SET datePreviewsRecall = NOW(),  rankRepetition = rankRepetition - 1
+				WHERE id=:idInDdb AND idUser=:idUser AND idTopic=:idTopic');
+				$reqDowngradeRecall -> execute(array(
+				'idInDdb' => $idInDdb,
+				'idUser' => $_SESSION['id'],
+				'idTopic' => $idTopic));				
+			$reqDowngradeRecall->closeCursor();
+		}		
+
+        
 		if (isset($_POST['IsApproved']) && isset($_POST['idInDdb'])) { // User asks to go to next recall step 
 			$idInDdb = htmlspecialchars($_POST['idInDdb']);
 
@@ -201,7 +215,7 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 					$buttonPronunciationDisabledOrNot = $pronunciationForeignWordFetched ==='' ? 'disabled' : '';
 					$wordInMyLanguageFetched = $translationsList['wordInMyLanguage'];
 					
-					echo 	'<div id="containerWordReminder'.$i.'" class="containerWordReminder" data-isMylanguageInput="'.$isMylanguageInputInReminders.'">
+					echo 	'<div id="containerWordReminder'.$i.'" class="containerWordReminder" data-isMylanguageInput="'.$isMylanguageInputInReminders.'" data-rankRepetition="'.($rankRepetition+1).'">
 								<div id="containerWordInMyLanguage'.$i.'" class="wordReminder wordInMyLanguage" onclick="editWordInMyLanguage('.$i.')">'
 									.'<span id="wordInMyLanguage'.$i.'" data-idInDdb="'.$IdinDdbFetched.'" style="display:'.$displayMyLanguage.'">'
 									.$wordInMyLanguageFetched

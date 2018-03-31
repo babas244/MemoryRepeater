@@ -226,6 +226,32 @@ function openTranslationMenu(idTranslation) {  // faire une div de tout le menu 
 			},false);			
 			oDOMcontainerTranslationMenu.appendChild(oDOMRecallIsToRepeat);	
 			
+			if (oDOMContainerWordReminder.getAttribute('data-rankRepetition') !=="1") { // button downgrade recall step if step > 1
+				var oDOMRecallIsToDowngrade = document.createElement('button'); 
+				oDOMRecallIsToDowngrade.textContent = '<';
+				oDOMRecallIsToDowngrade.className = 'recallIsToDownGrade translationMenu';
+				oDOMRecallIsToDowngrade.id = 'recallIsToDownGrade' + idTranslation;
+				oDOMRecallIsToDowngrade.addEventListener('click', function () {
+					var oDOMFormRecallIsToDowngrade = document.createElement('form');
+					oDOMFormRecallIsToDowngrade.method='POST';
+					oDOMFormRecallIsToDowngrade.action='memoryRepeater.php?idTopic=' + idTopic;
+					var oDOMHiddenIdInDdb = document.createElement('input');
+					oDOMHiddenIdInDdb.type = 'hidden';
+					oDOMHiddenIdInDdb.name = 'idInDdb';
+					oDOMHiddenIdInDdb.value = document.getElementById('wordInMyLanguage'+idTranslation).getAttribute('data-idInDdb');
+					var oDOMHiddenisToDowngrade = document.createElement('input');
+					oDOMHiddenisToDowngrade.type = 'hidden';
+					oDOMHiddenisToDowngrade.name = 'IsToDowngrade';
+					oDOMHiddenisToDowngrade.value = 1;
+					oDOMcontainerTranslationMenu.appendChild(oDOMFormRecallIsToDowngrade);
+					oDOMFormRecallIsToDowngrade.appendChild(oDOMHiddenisToDowngrade);
+					oDOMFormRecallIsToDowngrade.appendChild(oDOMHiddenIdInDdb);
+					oDOMFormRecallIsToDowngrade.submit();
+				},false);			
+				oDOMcontainerTranslationMenu.appendChild(oDOMRecallIsToDowngrade);	
+			}
+			
+            
 			var oDOMDeleteTranslation = document.createElement('button'); // button delete translation
 			oDOMDeleteTranslation.textContent = 'X';
 			oDOMDeleteTranslation.className = 'deleteTranslation translationMenu';
