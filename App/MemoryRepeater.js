@@ -85,30 +85,63 @@ function showTranslation(idTranslation) { // triggered when user presses button 
 	}
 }
 
+function coverPageWithLayer() {
+	document.getElementById("greyLayerOnPage").style.display = "block";
+}
+
+function uncoverLayerOnPage() {
+	document.getElementById("greyLayerOnPage").style.display = "none";
+}	
+
 function editWordInMyLanguage(idTranslation) { // triggered when user asks for updating word in his language of a translation 
+	var oDOMContainerWordInMyLanguage = document.getElementById("containerWordInMyLanguage"+idTranslation);
 	var oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage"+idTranslation);
-	if (oDOMWordInMyLanguage.style.display !=='none') {
-		var oDOMContainerWordInMyLanguage = document.getElementById("containerWordInMyLanguage"+idTranslation);
+	if (!oDOMWordInMyLanguage.nextElementSibling) {
 		var oDOMFormWordInMyLanguage = document.createElement('form');
-		oDOMFormWordInMyLanguage.method='POST';
-		oDOMFormWordInMyLanguage.action='memoryRepeater.php?idTopic=' + idTopic;
+		oDOMContainerWordInMyLanguage.appendChild(oDOMFormWordInMyLanguage);
 		var oDOMInputWordInMyLanguage = document.createElement('input'); 
+		oDOMFormWordInMyLanguage.appendChild(oDOMInputWordInMyLanguage);
 		oDOMInputWordInMyLanguage.type = 'text'; 
 		oDOMInputWordInMyLanguage.name = 'newWordInMyLanguage';
 		oDOMInputWordInMyLanguage.value = oDOMWordInMyLanguage.textContent;
-		var oDOMHiddenIdInDdb = document.createElement('input');
-		oDOMHiddenIdInDdb.type = 'hidden';
-		oDOMHiddenIdInDdb.name = 'idInDdb';
-		oDOMHiddenIdInDdb.value = oDOMWordInMyLanguage.getAttribute('data-idInDdb');
-		oDOMContainerWordInMyLanguage.appendChild(oDOMFormWordInMyLanguage);
-		oDOMFormWordInMyLanguage.appendChild(oDOMInputWordInMyLanguage);
-		oDOMFormWordInMyLanguage.appendChild(oDOMHiddenIdInDdb);
-		oDOMInputWordInMyLanguage.addEventListener('blur', function() {
-			oDOMFormWordInMyLanguage.removeChild(oDOMInputWordInMyLanguage);
-			oDOMFormWordInMyLanguage.removeChild(oDOMHiddenIdInDdb);
-		},false); 
+		oDOMInputWordInMyLanguage.addEventListener("blur", function() {
+			oDOMContainerWordInMyLanguage.removeChild(oDOMWordInMyLanguage.nextElementSibling);
+		}, false);
+		oDOMInputWordInMyLanguage.addEventListener("keydown", function(e) {
+			if (e.keyCode===27) {editWordInMyLanguageReset(idTranslation);}
+		}, false);
 		oDOMInputWordInMyLanguage.focus();
+		
+		oDOMFormWordInMyLanguage.addEventListener("submit", function(e) {
+			e.preventDefault();
+			coverPageWithLayer();
+			sPathPhp = 'AjaxCallsPhpFiles/updateWordInMyLanguage.php?idTopic=' + idTopic;
+			sPostRequestContent = 'newWordInMyLanguage=' + oDOMInputWordInMyLanguage.value + '&idInDdb='+ oDOMWordInMyLanguage.getAttribute('data-idInDdb');
+			ajaxCall(sPathPhp, sPostRequestContent, editWordInMyLanguageFailed, editWordInMyLanguageUpDateClient, idTranslation, oDOMInputWordInMyLanguage.value)
+		}, false);	
 	}
+}
+
+function editWordInMyLanguageFailed(errorMessage) {
+	alert ("Problème rencontré : " + errorMessage);
+}
+
+function editWordInMyLanguageUpDateClient(errorMessageFromServer, idTranslation, WordInMyLanguageNewValue) {
+	if (errorMessageFromServer==="") {
+		var oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage"+idTranslation);
+		oDOMWordInMyLanguage.textContent = WordInMyLanguageNewValue; 
+		editWordInMyLanguageReset(idTranslation);
+	} 
+	else {
+		alert ('Erreur au niveau du serveur : ' + errorMessageFromServer);
+	}
+}
+
+function editWordInMyLanguageReset(idTranslation) {
+	var oDOMWordInMyLanguage = document.getElementById("wordInMyLanguage"+idTranslation);
+	var oDOMContainerWordInMyLanguage = document.getElementById("containerWordInMyLanguage"+idTranslation);
+	oDOMContainerWordInMyLanguage.removeChild(oDOMWordInMyLanguage.nextElementSibling);	
+	uncoverLayerOnPage();
 }
 
 function editWordInForeignLanguage(idTranslation) { // triggered when user asks for updating foreign word of a translation 
@@ -296,4 +329,32 @@ function showPronunciation(idTranslation) { // button showPronunciation was clic
 
 function seeAllItemsInDb() {
 	window.open('seeAllItemsInDb/seeAllItemsInDb.php?idTopic='+idTopic);
+}
+
+function ajaxCall(sPathPhp, sPostRequestContent, fCallbackFailed, fCallback, parameter1, parameter2, parameter3, parameter4) {
+	var xhr = new XMLHttpRequest(); 
+	
+	if (sPostRequestContent==='') {
+		xhr.open ('GET', sPathPhp);
+		xhr.send(null);
+	}
+	else {
+		xhr.open ('POST', sPathPhp);
+		//alert(sPathPhp + '\n\n sPostRequestContent :' + sPostRequestContent);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.send(sPostRequestContent);		
+	}
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			fCallback(xhr.responseText, parameter1, parameter2, parameter3, parameter4);
+		} 
+		else if (xhr.readyState == 4 && xhr.status != 200) {
+			var errorMessage = "\n\n(Si le problème persiste, contacter l'administrateur du site à ..." 
+								+ " avec les infomations suivantes :\nCalled function : "
+								+ fCallback.name + ", status :" 
+								+ xhr.status + ", statusText: " 
+								+ (xhr.statusText==undefined||"" ? "-" : xhr.statusText) + ")";
+			fCallbackFailed(errorMessage);
+		}
+	}
 }

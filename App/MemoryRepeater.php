@@ -39,21 +39,6 @@ if (isset($_SESSION['id']) && isset($_GET["idTopic"])) {
 <?php
 		$idTranslationInDdb = array();
 				
-		if (isset($_POST['newWordInMyLanguage']) && isset($_POST['idInDdb'])) { //update word in my language 
-			$newWordInMyLanguage = htmlspecialchars($_POST['newWordInMyLanguage']);
-			$idInDdb = htmlspecialchars($_POST['idInDdb']);
-
-			$reqUpdateWordInMyLanguage = $bdd -> prepare('UPDATE translations 
-				SET wordInMyLanguage=:newWordInMyLanguage
-				WHERE id=:idInDdb AND idUser=:idUser AND idTopic=:idTopic');
-				$reqUpdateWordInMyLanguage -> execute(array(
-				'idInDdb' => $idInDdb,
-				'idUser' => $_SESSION['id'],
-				'idTopic' => $idTopic,
-				'newWordInMyLanguage' => $newWordInMyLanguage));				
-			$reqUpdateWordInMyLanguage->closeCursor();
-		}
-
 		if (isset($_POST['newWordInForeignLanguage']) && isset($_POST['idInDdb'])) { //update word in foreign language
 			$newWordInForeignLanguage = htmlspecialchars($_POST['newWordInForeignLanguage']);
 			$idInDdb = htmlspecialchars($_POST['idInDdb']);
@@ -157,6 +142,7 @@ echo"coucou";
 			$reqInsertInputUserTranslation->closeCursor();
 		}		
 ?>
+		<div id="greyLayerOnPage"><img src="ajax-loader.gif" alt="loading..."/></div>
 		<div id="containerForm">
 			<form id="formEnterTranslations" method="POST" action="memoryRepeater.php?idTopic=<?php echo $idTopic; ?>">
 				<div id = "containerInputTranslationsWithSubmit">
